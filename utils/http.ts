@@ -11,6 +11,10 @@ export async function getAsset(url: string) {
 	return axios.get<Blob>(url, { withCredentials: false, responseType: 'blob' });
 }
 
+export async function auth() {
+	return backendClient.get('/auth');
+}
+
 export async function getUnitsData() {
 	return backendClient.get<UnmarshalledUnit[]>('/units', { withCredentials: false });
 }

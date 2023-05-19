@@ -1,9 +1,9 @@
 import { Title } from '@mantine/core';
-import axios from 'axios';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { auth } from './http';
 
 export function withAuth<P extends JSX.IntrinsicAttributes, IP>(Component: NextPage<P, IP>, loaderTitle: string): NextPage<P, IP> {
 	return function WithAuth(props) {
@@ -18,8 +18,7 @@ export function withAuth<P extends JSX.IntrinsicAttributes, IP>(Component: NextP
 		}, [loading, authorized, router]);
 
 		useEffect(() => {
-			axios
-				.post('/api/auth')
+			auth()
 				.then(() => {
 					setAuthorized(true);
 				})
