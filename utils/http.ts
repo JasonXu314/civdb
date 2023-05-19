@@ -12,7 +12,7 @@ export async function getAsset(url: string) {
 }
 
 export async function auth() {
-	return backendClient.get('/auth');
+	return backendClient.post('/auth');
 }
 
 export async function getUnitsData() {
