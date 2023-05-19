@@ -7,6 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 	}
 
 	const secret = req.cookies['civdb:secret'];
+	console.log(secret);
 	await axios
 		.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth`, { secret })
 		.then(() => {

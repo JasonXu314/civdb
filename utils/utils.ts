@@ -25,7 +25,10 @@ export async function deepDiff<T>(a: T, b: T): Promise<DeepPartial<T>> {
 				} else {
 					diff[prop] = otherValue;
 				}
-			} else if (Array.isArray(value) && !value.every((val, i) => (otherValue as unknown[])[i] === val)) {
+			} else if (
+				Array.isArray(value) &&
+				(value.length !== (otherValue as unknown[]).length || !value.every((val, i) => (otherValue as unknown[])[i] === val))
+			) {
 				diff[prop] = otherValue;
 			} else if (value === null && value !== otherValue) {
 				diff[prop] = otherValue;

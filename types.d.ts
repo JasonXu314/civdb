@@ -3,8 +3,6 @@ type DeepPartial<T> = {
 	[K in Extract<keyof T, string>]?: T[K] extends Blob ? T[K] : T[K] extends object ? DeepPartial<T[K]> : T[K];
 };
 
-type Era = 'Ancient' | 'Classical' | 'Medieval' | 'Renaissance' | 'Industrial' | 'Modern' | 'Atomic' | 'Information';
-
 interface ErrorResponse {
 	statusCode: number;
 	message: string;
