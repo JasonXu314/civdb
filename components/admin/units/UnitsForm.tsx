@@ -1,10 +1,10 @@
 import { Avatar, Button, Checkbox, FileInput, Group, Image, MultiSelect, NumberInput, Select, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
-import axios from 'axios';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
 import { CompleteUnitData, PROMOTION_CLASSES, RESOURCES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
 import { makeExpansionInputs } from '../../../utils/expansionInputs';
+import { getUnitsData } from '../../../utils/http';
 import FormHorizontalSection from '../FormHorizontalSection';
 
 interface Props {
@@ -93,8 +93,7 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	const otherUnitsData = useMemo(() => otherUnits.map((unit) => ({ label: unit.name, value: unit._id, unit })), [otherUnits]);
 
 	useEffect(() => {
-		axios
-			.get<UnmarshalledUnit[]>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/units`) // TODO: this as any is kinda ugly
+		getUnitsData() // TODO: this as any is kinda ugly
 			.then((res) => setOtherUnits(initialValues ? res.data.filter((unit) => unit._id !== (initialValues as any)._id) : res.data));
 	}, [initialValues]);
 
