@@ -1,5 +1,6 @@
 import { Anchor, Center, Flex, Image, Paper } from '@mantine/core';
 import Link from 'next/link';
+import { UnmarshalledUnit } from '../../../utils/data/units';
 
 interface Props {
 	unit: UnmarshalledUnit;

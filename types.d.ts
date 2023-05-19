@@ -1,6 +1,6 @@
 type WithoutId<T> = Omit<T, '_id'>;
 type DeepPartial<T> = {
-	[K in Extract<keyof T, string>]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+	[K in Extract<keyof T, string>]?: T[K] extends Blob ? T[K] : T[K] extends object ? DeepPartial<T[K]> : T[K];
 };
 
 type Era = 'Ancient' | 'Classical' | 'Medieval' | 'Renaissance' | 'Industrial' | 'Modern' | 'Atomic' | 'Information';

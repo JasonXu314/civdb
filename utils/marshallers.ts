@@ -1,6 +1,6 @@
 import { CompleteUnitData } from './data/units';
 
-export function unitToFormData(data: Partial<CompleteUnitData>): FormData {
+export function unitToFormData(data: DeepPartial<CompleteUnitData>): FormData {
 	const fd = new FormData();
 
 	(

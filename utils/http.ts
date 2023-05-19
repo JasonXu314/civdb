@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { CompleteUnitData, UnmarshalledUnit } from './data/units';
 import { unitToFormData } from './marshallers';
 
 export const backendClient = axios.create({
@@ -18,11 +19,11 @@ export async function getUnitById(id: string) {
 	return backendClient.get<UnmarshalledUnit>(`/units/${id}`, { withCredentials: false });
 }
 
-export async function createUnit(data: CompleteInputData<UnmarshalledUnit>) {
+export async function createUnit(data: CompleteUnitData) {
 	return backendClient.post<UnmarshalledUnit>('/units', unitToFormData(data));
 }
 
-export async function updateUnit(id: string, updates: DeepPartial<CompleteInputData<UnmarshalledUnit>>) {
+export async function updateUnit(id: string, updates: DeepPartial<CompleteUnitData>) {
 	return backendClient.patch(`/units/${id}`, unitToFormData(updates));
 }
 
