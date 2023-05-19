@@ -15,18 +15,18 @@ export async function auth() {
 }
 
 export async function getUnitsData() {
-	return backendClient.get<UnmarshalledUnit[]>('/units', { withCredentials: false });
+	return backendClient.get<UnmarshalledUnit[]>('/units/data', { withCredentials: false });
 }
 
 export async function getUnitById(id: string) {
-	return backendClient.get<UnmarshalledUnit>(`/units/${id}`, { withCredentials: false });
+	return backendClient.get<UnmarshalledUnit>(`/units/data/${id}`, { withCredentials: false });
 }
 
 export async function createUnit(data: CompleteUnitData) {
-	return backendClient.post<UnmarshalledUnit>(`/units?secret=${localStorage.getItem('civdb:secret')}`, unitToFormData(data));
+	return backendClient.post<UnmarshalledUnit>(`/units/data?secret=${localStorage.getItem('civdb:secret')}`, unitToFormData(data));
 }
 
 export async function updateUnit(id: string, updates: DeepPartial<CompleteUnitData>) {
-	return backendClient.patch(`/units/${id}?secret=${localStorage.getItem('civdb:secret')}`, unitToFormData(updates));
+	return backendClient.patch(`/units/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, unitToFormData(updates));
 }
 
