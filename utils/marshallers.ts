@@ -8,6 +8,7 @@ export function unitToFormData(data: DeepPartial<CompleteUnitData>): FormData {
 			'name',
 			'promotionClass',
 			'era',
+			'addedBy',
 			'unique',
 			'movement',
 			'sight',

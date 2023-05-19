@@ -1,7 +1,8 @@
-import { Avatar, Button, Checkbox, FileInput, Group, Image, MultiSelect, NumberInput, Select, Stack, Text, TextInput, Title } from '@mantine/core';
+import { Avatar, Button, Checkbox, FileInput, Group, Image, MultiSelect, NumberInput, Radio, Select, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
+import { ERAS } from '../../../utils/data/common';
 import { CompleteUnitData, PROMOTION_CLASSES, RESOURCES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
 import { makeExpansionInputs } from '../../../utils/expansionInputs';
 import { getUnitsData } from '../../../utils/http';
@@ -38,6 +39,7 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 			name: '',
 			promotionClass: null,
 			era: null,
+			addedBy: null,
 			production: { base: 0, rf: null, gs: null },
 			gold: { base: 0, rf: null, gs: null },
 			maintenance: { base: 0, rf: null, gs: null },
@@ -75,6 +77,8 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 			if (copy.range === 0) {
 				if (copy.rangedStrength !== null) copy.rangedStrength = null;
 				if (copy.bombardStrength !== null) copy.bombardStrength = null;
+			} else {
+				if ((copy.bombardStrength as any) === '') copy.bombardStrength = null;
 			}
 
 			if (!copy.aaStrength) copy.aaStrength = null;
@@ -104,11 +108,12 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				<FileInput label="Icon" {...form.getInputProps('icon')} />
 				{form.values.icon && <Image src={preview} height={75} width={75} />}
 				<Select label="Promotion Class" data={PROMOTION_CLASSES} {...form.getInputProps('promotionClass')} />
-				<Select
-					label="Unit Era"
-					data={['Ancient', 'Classical', 'Medieval', 'Renaissance', 'Industrial', 'Modern', 'Atomic', 'Information']}
-					{...form.getInputProps('era')}
-				/>
+				<Select label="Unit Era" data={ERAS} {...form.getInputProps('era')} />
+				<Radio.Group label="DLC Added" {...form.getInputProps('addedBy')}>
+					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+						<Radio label={prettyExpansion} value={expansion} />
+					))}
+				</Radio.Group>
 				<FormHorizontalSection title="Production">
 					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
 						<NumberInput label={prettyExpansion} {...form.getInputProps(`production.${expansion}`)} />

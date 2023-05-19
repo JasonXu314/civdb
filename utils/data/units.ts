@@ -1,6 +1,7 @@
 import { isNotEmpty } from '@mantine/form';
 import { FormValidateInput } from '@mantine/form/lib/types';
 import { isNonNegative, isPositive } from '../validators';
+import { DLCString, Era } from './common';
 
 export type PromotionClass =
 	| 'Recon'
@@ -73,6 +74,7 @@ interface ConcreteUnit<T> extends UnitBase<T> {
 	_id: string;
 	promotionClass: PromotionClass;
 	era: Era;
+	addedBy: DLCString;
 }
 
 interface UnitDataBase<T> extends UnitBase<T> {
@@ -102,17 +104,20 @@ export interface UnmarshalledUnit extends ConcreteUnit<string> {
 export interface UnitData extends UnitDataBase<File | null> {
 	promotionClass: PromotionClass | null;
 	era: Era | null;
+	addedBy: DLCString | null;
 }
 
 export interface CompleteUnitData extends UnitDataBase<File> {
 	promotionClass: PromotionClass;
 	era: Era;
+	addedBy: DLCString;
 }
 
 export const unitValidators: FormValidateInput<UnitData> = {
 	name: isNotEmpty('Name must not be empty'),
 	promotionClass: isNotEmpty('Must select a promotion class'),
 	era: isNotEmpty('Must select an era'),
+	addedBy: isNotEmpty('Must select DLC the unit was added in'),
 	production: {
 		base: isPositive('Must provide a base production cost', 'Production cost must be greater than 0')
 	},
