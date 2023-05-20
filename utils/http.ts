@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CompleteCivicData, UnmarshalledCivic } from './data/civics';
-import { CompleteTechnologyData, UnmarshalledTechnology } from './data/technologies';
+import { CompleteTechnologyData, Technology, UnmarshalledTechnology } from './data/technologies';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
 import { civicToFormData, techToFormData, unitToFormData } from './transformers';
 
@@ -17,11 +17,11 @@ export async function auth() {
 }
 
 export async function getUnitsData() {
-	return backendClient.get<UnmarshalledUnit[]>('/units/data', { withCredentials: false });
+	return backendClient.get<UnmarshalledUnit[]>('/units/data');
 }
 
 export async function getUnitById(id: string) {
-	return backendClient.get<UnmarshalledUnit>(`/units/data/${id}`, { withCredentials: false });
+	return backendClient.get<UnmarshalledUnit>(`/units/data/${id}`);
 }
 
 export async function createUnit(data: CompleteUnitData) {
@@ -32,12 +32,16 @@ export async function updateUnit(id: string, updates: DeepPartial<CompleteUnitDa
 	return backendClient.patch(`/units/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, unitToFormData(updates));
 }
 
+export async function getTechs() {
+	return backendClient.get<Technology[]>('/technologies');
+}
+
 export async function getTechsData() {
-	return backendClient.get<UnmarshalledTechnology[]>('/technologies/data', { withCredentials: false });
+	return backendClient.get<UnmarshalledTechnology[]>('/technologies/data');
 }
 
 export async function getTechById(id: string) {
-	return backendClient.get<UnmarshalledTechnology>(`/technologies/data/${id}`, { withCredentials: false });
+	return backendClient.get<UnmarshalledTechnology>(`/technologies/data/${id}`);
 }
 
 export async function createTech(data: CompleteTechnologyData) {
@@ -49,11 +53,11 @@ export async function updateTech(id: string, updates: DeepPartial<CompleteTechno
 }
 
 export async function getCivicsData() {
-	return backendClient.get<UnmarshalledCivic[]>('/civics/data', { withCredentials: false });
+	return backendClient.get<UnmarshalledCivic[]>('/civics/data');
 }
 
 export async function getCivicById(id: string) {
-	return backendClient.get<UnmarshalledCivic>(`/civics/data/${id}`, { withCredentials: false });
+	return backendClient.get<UnmarshalledCivic>(`/civics/data/${id}`);
 }
 
 export async function createCivic(data: CompleteCivicData) {
