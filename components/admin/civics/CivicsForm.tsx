@@ -62,6 +62,11 @@ const CivicsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 			if (!copy.inspiration.rf) copy.inspiration = { ...copy.inspiration, rf: null };
 			if (!copy.inspiration.gs) copy.inspiration = { ...copy.inspiration, gs: null };
 
+			if ((copy.envoys.rf as any) === '') copy.envoys = { ...copy.envoys, rf: null };
+			if ((copy.envoys.gs as any) === '') copy.envoys = { ...copy.envoys, gs: null };
+			if ((copy.governorTitles.rf as any) === '') copy.governorTitles = { ...copy.governorTitles, rf: null };
+			if ((copy.governorTitles.gs as any) === '') copy.governorTitles = { ...copy.governorTitles, gs: null };
+
 			return copy;
 		}
 	});
