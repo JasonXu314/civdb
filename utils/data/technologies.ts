@@ -1,11 +1,13 @@
 import { isNotEmpty } from '@mantine/form';
 import { FormValidateInput } from '@mantine/form/lib/types';
+import { isPositive } from '../validators';
 import { DLCString, Era } from './common';
 
 interface TechnologyBase<IconType> {
 	name: string;
 	icon: IconType;
 	description: string;
+	cost: StatDLCRecord;
 	otherEffects: MultiDescDLCRecord;
 	eureka: DescDLCRecord;
 }
@@ -42,6 +44,9 @@ export const techValidators: FormValidateInput<TechnologyData> = {
 	name: isNotEmpty('Name must not be empty'),
 	era: isNotEmpty('Must select an era'),
 	addedBy: isNotEmpty('Must select DLC the unit was added in'),
-	icon: isNotEmpty('Must provide unit icon')
+	icon: isNotEmpty('Must provide unit icon'),
+	cost: {
+		base: isPositive('Must provide a base production cost', 'Production cost must be greater than 0')
+	}
 };
 

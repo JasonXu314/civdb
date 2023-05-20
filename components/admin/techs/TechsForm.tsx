@@ -1,4 +1,4 @@
-import { Avatar, Button, FileInput, Group, Image, MultiSelect, Radio, Select, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
+import { Avatar, Button, FileInput, Group, Image, MultiSelect, NumberInput, Radio, Select, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
@@ -40,6 +40,7 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					addedBy: null,
 					icon: null,
 					description: '',
+					cost: { base: 0, rf: null, gs: null },
 					dependencies: { base: [], rf: [], gs: [] },
 					eureka: { base: '', rf: '', gs: '' },
 					otherEffects: { base: [], rf: [], gs: [] }
@@ -80,6 +81,11 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					))}
 				</Radio.Group>
 				<Textarea label="Description" placeholder="Technology Description" {...form.getInputProps('description')} />
+				<FormHorizontalSection title="Research Cost">
+					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+						<NumberInput label={prettyExpansion} {...form.getInputProps(`cost.${expansion}`)} />
+					))}
+				</FormHorizontalSection>
 				<FormHorizontalSection title="Dependencies">
 					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
 						<MultiSelect
