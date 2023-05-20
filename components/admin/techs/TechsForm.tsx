@@ -18,7 +18,7 @@ interface TechnologyItemProps extends React.ComponentPropsWithoutRef<'div'> {
 	tech: UnmarshalledTechnology | null;
 }
 
-const TechItem = forwardRef<HTMLDivElement, TechnologyItemProps>(function TechnologyItem({ tech, ...others }: TechnologyItemProps, ref) {
+export const TechItem = forwardRef<HTMLDivElement, TechnologyItemProps>(function TechnologyItem({ tech, ...others }: TechnologyItemProps, ref) {
 	return (
 		<div ref={ref} {...others}>
 			<Group noWrap>
