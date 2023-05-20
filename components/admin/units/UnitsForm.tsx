@@ -2,8 +2,8 @@ import { Avatar, Button, Checkbox, FileInput, Group, Image, MultiSelect, NumberI
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
-import { ERAS } from '../../../utils/data/common';
-import { CompleteUnitData, PROMOTION_CLASSES, RESOURCES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
+import { ERAS, RESOURCES } from '../../../utils/data/common';
+import { CompleteUnitData, PROMOTION_CLASSES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
 import { makeExpansionInputs } from '../../../utils/expansionInputs';
 import { getUnitsData } from '../../../utils/http';
 import FormHorizontalSection from '../FormHorizontalSection';

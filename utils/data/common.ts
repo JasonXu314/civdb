@@ -1,5 +1,5 @@
-export type Era = 'Ancient' | 'Classical' | 'Medieval' | 'Renaissance' | 'Industrial' | 'Modern' | 'Atomic' | 'Information';
-export const ERAS = ['Ancient', 'Classical', 'Medieval', 'Renaissance', 'Industrial', 'Modern', 'Atomic', 'Information'];
+export type Era = 'Ancient' | 'Classical' | 'Medieval' | 'Renaissance' | 'Industrial' | 'Modern' | 'Atomic' | 'Information' | 'Future';
+export const ERAS = ['Ancient', 'Classical', 'Medieval', 'Renaissance', 'Industrial', 'Modern', 'Atomic', 'Information', 'Future'];
 
 export enum DLC {
 	BASE,
@@ -8,6 +8,9 @@ export enum DLC {
 }
 export type DLCString = 'base' | 'rf' | 'gs';
 export const DLC_STRINGS = ['base', 'rf', 'gs'];
+
+export type Resource = 'Horses' | 'Iron' | 'Niter' | 'Coal' | 'Oil' | 'Aluminum' | 'Uranium';
+export const RESOURCES = ['Horses', 'Iron', 'Niter', 'Coal', 'Oil', 'Aluminum', 'Uranium'] as const;
 
 export function dlcValue(dlc: DLCString): DLC {
 	switch (dlc) {

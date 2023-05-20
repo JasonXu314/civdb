@@ -21,6 +21,18 @@ interface MultiReferenceDLCRecord<T> {
 	gs: T[];
 }
 
+interface DescDLCRecord {
+	base: string | null;
+	rf: string | null;
+	gs: string | null;
+}
+
+interface MultiDescDLCRecord {
+	base: string[];
+	rf: string[];
+	gs: string[];
+}
+
 interface StatDLCRecord {
 	base: number;
 	rf: number | null;

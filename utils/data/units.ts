@@ -25,31 +25,28 @@ export type PromotionClass =
 	| 'Giant Death Robots'
 	| 'Soothsayers';
 
-export type Resource = 'Horses' | 'Iron' | 'Niter' | 'Coal' | 'Oil' | 'Aluminum' | 'Uranium';
-
 export const PROMOTION_CLASSES = [
-		'Recon',
-		'Melee',
-		'Ranged',
-		'Anti-Cavalry',
-		'Light Cavalry',
-		'Heavy Cavalry',
-		'Siege',
-		'Naval Melee',
-		'Naval Ranged',
-		'Naval Raider',
-		'Naval Carrier',
-		'Fighter',
-		'Bomber',
-		'Warrior Monks',
-		'Nihang',
-		'Apostles',
-		'Spies',
-		'Rock Bands',
-		'Giant Death Robots',
-		'Soothsayers'
-	] as const,
-	RESOURCES = ['Horses', 'Iron', 'Niter', 'Coal', 'Oil', 'Aluminum', 'Uranium'] as const;
+	'Recon',
+	'Melee',
+	'Ranged',
+	'Anti-Cavalry',
+	'Light Cavalry',
+	'Heavy Cavalry',
+	'Siege',
+	'Naval Melee',
+	'Naval Ranged',
+	'Naval Raider',
+	'Naval Carrier',
+	'Fighter',
+	'Bomber',
+	'Warrior Monks',
+	'Nihang',
+	'Apostles',
+	'Spies',
+	'Rock Bands',
+	'Giant Death Robots',
+	'Soothsayers'
+] as const;
 
 interface UnitBase<IconType> {
 	name: string;

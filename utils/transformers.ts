@@ -1,3 +1,4 @@
+import { CompleteTechnologyData } from './data/technologies';
 import { CompleteUnitData } from './data/units';
 
 export function unitToFormData(data: DeepPartial<CompleteUnitData>): FormData {
@@ -40,6 +41,29 @@ export function unitToFormData(data: DeepPartial<CompleteUnitData>): FormData {
 			'maintenanceResource'
 		] as const
 	).forEach((prop) => {
+		if (data[prop] !== undefined) {
+			fd.append(prop, JSON.stringify(data[prop]));
+		}
+	});
+
+	if (data.icon) {
+		fd.append('icon', data.icon, data.icon.name);
+	}
+
+	return fd;
+}
+
+export function techToFormData(data: DeepPartial<CompleteTechnologyData>): FormData {
+	const fd = new FormData();
+
+	(['name', 'description', 'era', 'addedBy'] as const).forEach((prop) => {
+		const val = data[prop];
+		if (val !== undefined) {
+			fd.append(prop, val !== null ? val.toString() : 'null');
+		}
+	});
+
+	(['otherEffects', 'eureka', 'dependencies'] as const).forEach((prop) => {
 		if (data[prop] !== undefined) {
 			fd.append(prop, JSON.stringify(data[prop]));
 		}
