@@ -7,21 +7,21 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next/types';
 import { useEffect, useMemo, useState } from 'react';
-import UnitsForm from '../../../components/admin/units/UnitsForm';
+import TechsForm from '../../../components/admin/techs/TechsForm';
 import { withAuth } from '../../../utils/auth';
-import { CompleteUnitData } from '../../../utils/data/units';
-import { getAsset, getUnitById, updateUnit } from '../../../utils/http';
+import { CompleteTechnologyData } from '../../../utils/data/technologies';
+import { getAsset, getTechById, updateTech } from '../../../utils/http';
 import { FILE_NAME_REGEX, deepDiff } from '../../../utils/utils';
 
-const UnitById: NextPage = () => {
+const TechById: NextPage = () => {
 	const router = useRouter();
 	const id = useMemo(() => router.query.id as string, [router]);
-	const [unit, setUnit] = useState<CompleteUnitData | null>(null);
+	const [tech, setTech] = useState<CompleteTechnologyData | null>(null);
 
 	useEffect(() => {
 		if (id) {
-			getUnitById(id).then((res) => {
-				const unit = res.data;
+			getTechById(id).then((res) => {
+				const tech = res.data;
 
 				getAsset(res.data.icon).then((res) => {
 					const filenameResult = FILE_NAME_REGEX.exec(res.headers['content-disposition']);
@@ -31,8 +31,8 @@ const UnitById: NextPage = () => {
 						return;
 					}
 
-					setUnit({
-						...unit,
+					setTech({
+						...tech,
 						icon: new File([res.data], filenameResult[1])
 					});
 				});
@@ -40,7 +40,7 @@ const UnitById: NextPage = () => {
 		}
 	}, [id]);
 
-	if (!unit) {
+	if (!tech) {
 		return (
 			<>
 				<Head>
@@ -54,16 +54,16 @@ const UnitById: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>CivDB | Admin Panel - Editing Unit</title>
+				<title>CivDB | Admin Panel - Editing Technology</title>
 			</Head>
-			<UnitsForm
+			<TechsForm
 				onSubmit={(data) => {
-					deepDiff(unit, data).then((diff) => {
+					deepDiff(tech, data).then((diff) => {
 						const notifId = randomId();
-						notifications.show({ title: 'Submitting...', message: 'Updating unit...', id: notifId, autoClose: 5000, loading: true });
-						updateUnit(id, diff)
+						notifications.show({ title: 'Submitting...', message: 'Updating technology...', id: notifId, autoClose: 5000, loading: true });
+						updateTech(id, diff)
 							.then((res) => {
-								router.replace('/admin/units');
+								router.replace('/admin/technologies');
 								notifications.update({
 									id: notifId,
 									title: 'Success!',
@@ -88,12 +88,12 @@ const UnitById: NextPage = () => {
 							});
 					});
 				}}
-				initialValues={unit}
-				onCancel={() => router.replace('/admin/units')}
+				initialValues={tech}
+				onCancel={() => router.replace('/admin/technologies')}
 			/>
 		</>
 	);
 };
 
-export default withAuth(UnitById, 'CivDB | Admin Panel - Editing Unit');
+export default withAuth(TechById, 'CivDB | Admin Panel - Editing Technology');
 
