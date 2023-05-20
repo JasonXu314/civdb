@@ -4,7 +4,7 @@ import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-ic
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
 import { ERAS, RESOURCES } from '../../../utils/data/common';
 import { CompleteUnitData, PROMOTION_CLASSES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
-import { makeExpansionInputs } from '../../../utils/expansionInputs';
+import { makeDLCInputs } from '../../../utils/dlcInputs';
 import { getUnitsData } from '../../../utils/http';
 import FormHorizontalSection from '../FormHorizontalSection';
 
@@ -110,70 +110,70 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				<Select label="Promotion Class" data={PROMOTION_CLASSES} {...form.getInputProps('promotionClass')} />
 				<Select label="Unit Era" data={ERAS} {...form.getInputProps('era')} />
 				<Radio.Group label="DLC Added" {...form.getInputProps('addedBy')}>
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
-						<Radio label={prettyExpansion} value={expansion} />
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<Radio label={prettyDLC} value={dlc} />
 					))}
 				</Radio.Group>
 				<FormHorizontalSection title="Production">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
-						<NumberInput label={prettyExpansion} {...form.getInputProps(`production.${expansion}`)} />
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<NumberInput label={prettyDLC} {...form.getInputProps(`production.${dlc}`)} />
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Gold">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
-						<NumberInput label={prettyExpansion} {...form.getInputProps(`gold.${expansion}`)} />
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<NumberInput label={prettyDLC} {...form.getInputProps(`gold.${dlc}`)} />
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Maintenance">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
-						<NumberInput label={prettyExpansion} {...form.getInputProps(`maintenance.${expansion}`)} />
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<NumberInput label={prettyDLC} {...form.getInputProps(`maintenance.${dlc}`)} />
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Resource Costs">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<Stack>
-							<Title order={5}>{prettyExpansion}</Title>
+							<Title order={5}>{prettyDLC}</Title>
 							<Checkbox
 								label="Costs resource"
-								{...form.getInputProps(`resource.${expansion}`, { type: 'checkbox' })}
-								checked={!!form.values.resource[expansion]}
+								{...form.getInputProps(`resource.${dlc}`, { type: 'checkbox' })}
+								checked={!!form.values.resource[dlc]}
 								onChange={(evt) => {
 									if (evt.target.checked) {
-										form.setFieldValue(`resource.${expansion}`, { resource: null, quantity: 0 });
+										form.setFieldValue(`resource.${dlc}`, { resource: null, quantity: 0 });
 									} else {
-										form.setFieldValue(`resource.${expansion}`, null);
+										form.setFieldValue(`resource.${dlc}`, null);
 									}
 								}}
 							/>
-							{form.values.resource[expansion] && (
+							{form.values.resource[dlc] && (
 								<>
-									<Select label="Resource" data={RESOURCES} {...form.getInputProps(`resource.${expansion}.resource`)} />
-									<NumberInput label="Quantity" {...form.getInputProps(`resource.${expansion}.quantity`)} />
+									<Select label="Resource" data={RESOURCES} {...form.getInputProps(`resource.${dlc}.resource`)} />
+									<NumberInput label="Quantity" {...form.getInputProps(`resource.${dlc}.quantity`)} />
 								</>
 							)}
 						</Stack>
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Resource Maintenance">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<Stack>
-							<Title order={5}>{prettyExpansion}</Title>
+							<Title order={5}>{prettyDLC}</Title>
 							<Checkbox
 								label="Costs resource"
-								{...form.getInputProps(`resource.${expansion}`, { type: 'checkbox' })}
-								checked={!!form.values.maintenanceResource[expansion]}
+								{...form.getInputProps(`resource.${dlc}`, { type: 'checkbox' })}
+								checked={!!form.values.maintenanceResource[dlc]}
 								onChange={(evt) => {
 									if (evt.target.checked) {
-										form.setFieldValue(`maintenanceResource.${expansion}`, { resource: null, quantity: 0 });
+										form.setFieldValue(`maintenanceResource.${dlc}`, { resource: null, quantity: 0 });
 									} else {
-										form.setFieldValue(`maintenanceResource.${expansion}`, null);
+										form.setFieldValue(`maintenanceResource.${dlc}`, null);
 									}
 								}}
 							/>
-							{form.values.maintenanceResource[expansion] && (
+							{form.values.maintenanceResource[dlc] && (
 								<>
-									<Select label="Resource" data={RESOURCES} {...form.getInputProps(`maintenanceResource.${expansion}.resource`)} />
-									<NumberInput label="Quantity" {...form.getInputProps(`maintenanceResource.${expansion}.quantity`)} />
+									<Select label="Resource" data={RESOURCES} {...form.getInputProps(`maintenanceResource.${dlc}.resource`)} />
+									<NumberInput label="Quantity" {...form.getInputProps(`maintenanceResource.${dlc}.quantity`)} />
 								</>
 							)}
 						</Stack>
@@ -182,11 +182,11 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				<Checkbox label="Unique" {...form.getInputProps('unique')} />
 				{form.values.unique && (
 					<FormHorizontalSection title="Replaced Unit">
-						{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+						{makeDLCInputs(({ dlc, prettyDLC }) => (
 							<Select
-								label={prettyExpansion}
-								data={expansion === 'base' ? otherUnitsData : [{ label: '', value: '', unit: null }, ...otherUnitsData]}
-								{...form.getInputProps(`replaces.${expansion}`)}
+								label={prettyDLC}
+								data={dlc === 'base' ? otherUnitsData : [{ label: '', value: '', unit: null }, ...otherUnitsData]}
+								{...form.getInputProps(`replaces.${dlc}`)}
 								itemComponent={UnitItem}
 								searchable
 							/>
@@ -207,50 +207,50 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					</FormHorizontalSection>
 				)}
 				<FormHorizontalSection title="Unlocked By">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<Select
-							label={prettyExpansion}
+							label={prettyDLC}
 							data={[
 								{ label: '', value: null },
 								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
 								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
 							]}
-							{...form.getInputProps(`unlockedBy.${expansion}`)}
+							{...form.getInputProps(`unlockedBy.${dlc}`)}
 							searchable
 						/>
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Obsoleted By">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<Select
-							label={prettyExpansion}
+							label={prettyDLC}
 							data={[
 								{ label: '', value: null },
 								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
 								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
 							]}
-							{...form.getInputProps(`obsoletedBy.${expansion}`)}
+							{...form.getInputProps(`obsoletedBy.${dlc}`)}
 							searchable
 						/>
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Upgrades From">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<MultiSelect
-							label={prettyExpansion}
+							label={prettyDLC}
 							data={otherUnitsData}
-							{...form.getInputProps(`upgradesFrom.${expansion}`)}
+							{...form.getInputProps(`upgradesFrom.${dlc}`)}
 							itemComponent={UnitItem}
 							searchable
 						/>
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Upgrades To">
-					{makeExpansionInputs(({ expansion, prettyExpansion }) => (
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<MultiSelect
-							label={prettyExpansion}
+							label={prettyDLC}
 							data={otherUnitsData}
-							{...form.getInputProps(`upgradesTo.${expansion}`)}
+							{...form.getInputProps(`upgradesTo.${dlc}`)}
 							itemComponent={UnitItem}
 							searchable
 						/>

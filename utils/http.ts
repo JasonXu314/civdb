@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { CompleteCivicData, UnmarshalledCivic } from './data/civics';
 import { CompleteTechnologyData, UnmarshalledTechnology } from './data/technologies';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
-import { techToFormData, unitToFormData } from './transformers';
+import { civicToFormData, techToFormData, unitToFormData } from './transformers';
 
 export const backendClient = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
@@ -45,5 +46,21 @@ export async function createTech(data: CompleteTechnologyData) {
 
 export async function updateTech(id: string, updates: DeepPartial<CompleteTechnologyData>) {
 	return backendClient.patch(`/technologies/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, techToFormData(updates));
+}
+
+export async function getCivicsData() {
+	return backendClient.get<UnmarshalledCivic[]>('/civics/data', { withCredentials: false });
+}
+
+export async function getCivicById(id: string) {
+	return backendClient.get<UnmarshalledCivic>(`/civics/data/${id}`, { withCredentials: false });
+}
+
+export async function createCivic(data: CompleteCivicData) {
+	return backendClient.post<UnmarshalledCivic>(`/civics/data?secret=${localStorage.getItem('civdb:secret')}`, civicToFormData(data));
+}
+
+export async function updateCivic(id: string, updates: DeepPartial<CompleteCivicData>) {
+	return backendClient.patch(`/civics/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, civicToFormData(updates));
 }
 

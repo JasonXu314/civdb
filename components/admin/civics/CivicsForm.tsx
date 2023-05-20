@@ -2,38 +2,41 @@ import { Avatar, Button, FileInput, Group, Image, MultiSelect, NumberInput, Radi
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
+import { CivicData, CompleteCivicData, UnmarshalledCivic, civicValidators } from '../../../utils/data/civics';
 import { ERAS } from '../../../utils/data/common';
-import { CompleteTechnologyData, TechnologyData, UnmarshalledTechnology, techValidators } from '../../../utils/data/technologies';
 import { makeDLCInputs } from '../../../utils/dlcInputs';
-import { getTechsData } from '../../../utils/http';
+import { getCivicsData } from '../../../utils/http';
 import FormHorizontalSection from '../FormHorizontalSection';
 
 interface Props {
-	onSubmit: (data: CompleteTechnologyData) => void;
+	onSubmit: (data: CompleteCivicData) => void;
 	onCancel?: () => void;
-	initialValues?: CompleteTechnologyData;
+	initialValues?: CompleteCivicData;
 }
 
-interface TechnologyItemProps extends React.ComponentPropsWithoutRef<'div'> {
-	tech: UnmarshalledTechnology | null;
+interface CivicItemProps extends React.ComponentPropsWithoutRef<'div'> {
+	civic: UnmarshalledCivic | null;
 }
 
-export const TechItem = forwardRef<HTMLDivElement, TechnologyItemProps>(function TechnologyItem({ tech, ...others }: TechnologyItemProps, ref) {
+export const CivicItem = forwardRef<HTMLDivElement, CivicItemProps>(function CivicItem({ civic, ...others }: CivicItemProps, ref) {
 	return (
 		<div ref={ref} {...others}>
 			<Group noWrap>
-				<Avatar src={tech ? tech.icon : undefined} />
-				<Text size="sm">{tech ? tech.name : ''}</Text>
+				<Avatar src={civic ? civic.icon : undefined} />
+				<Text size="sm">{civic ? civic.name : ''}</Text>
 			</Group>
 		</div>
 	);
 });
 
-const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
-	const [otherTechs, setOtherTechs] = useState<UnmarshalledTechnology[]>([]);
-	const form = useForm<TechnologyData>({
+const CivicsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
+	const [otherCivics, setOtherCivics] = useState<UnmarshalledCivic[]>([]);
+	const form = useForm<CivicData>({
 		initialValues: initialValues
-			? { ...initialValues, eureka: { base: initialValues.eureka.base || '', rf: initialValues.eureka.rf || '', gs: initialValues.eureka.gs || '' } }
+			? {
+					...initialValues,
+					inspiration: { base: initialValues.inspiration.base || '', rf: initialValues.inspiration.rf || '', gs: initialValues.inspiration.gs || '' }
+			  }
 			: {
 					name: '',
 					era: null,
@@ -41,11 +44,13 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					icon: null,
 					description: '',
 					cost: { base: 0, rf: null, gs: null },
+					envoys: { base: 0, rf: null, gs: null },
+					governorTitles: { base: 0, rf: null, gs: null },
 					dependencies: { base: [], rf: [], gs: [] },
-					eureka: { base: '', rf: '', gs: '' },
+					inspiration: { base: '', rf: '', gs: '' },
 					otherEffects: { base: [], rf: [], gs: [] }
 			  },
-		validate: techValidators,
+		validate: civicValidators,
 		transformValues: (values) => {
 			const copy = { ...values };
 
@@ -53,9 +58,9 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				delete copy._id;
 			}
 
-			if (!copy.eureka.base) copy.eureka = { ...copy.eureka, base: null };
-			if (!copy.eureka.rf) copy.eureka = { ...copy.eureka, rf: null };
-			if (!copy.eureka.gs) copy.eureka = { ...copy.eureka, gs: null };
+			if (!copy.inspiration.base) copy.inspiration = { ...copy.inspiration, base: null };
+			if (!copy.inspiration.rf) copy.inspiration = { ...copy.inspiration, rf: null };
+			if (!copy.inspiration.gs) copy.inspiration = { ...copy.inspiration, gs: null };
 
 			return copy;
 		}
@@ -64,12 +69,12 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	const preview = useMemo(() => (form.values.icon ? URL.createObjectURL(form.values.icon) : null), [form.values.icon]);
 
 	useEffect(() => {
-		getTechsData() // TODO: this as any is kinda ugly
-			.then((res) => setOtherTechs(initialValues ? res.data.filter((tech) => tech._id !== (initialValues as any)._id) : res.data));
+		getCivicsData() // TODO: this as any is kinda ugly
+			.then((res) => setOtherCivics(initialValues ? res.data.filter((tech) => tech._id !== (initialValues as any)._id) : res.data));
 	}, [initialValues]);
 
 	return (
-		<form onSubmit={form.onSubmit((values) => onSubmit(values as CompleteTechnologyData))}>
+		<form onSubmit={form.onSubmit((values) => onSubmit(values as CompleteCivicData))}>
 			<Stack>
 				<TextInput label="Name" placeholder="Technology Name" {...form.getInputProps('name')} />
 				<FileInput label="Icon" {...form.getInputProps('icon')} />
@@ -90,11 +95,21 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<MultiSelect
 							label={prettyDLC}
-							data={otherTechs.map((tech) => ({ label: tech.name, value: tech._id, tech }))}
+							data={otherCivics.map((tech) => ({ label: tech.name, value: tech._id, tech }))}
 							{...form.getInputProps(`dependencies.${dlc}`)}
-							itemComponent={TechItem}
+							itemComponent={CivicItem}
 							searchable
 						/>
+					))}
+				</FormHorizontalSection>
+				<FormHorizontalSection title="Envoys Rewarded">
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<NumberInput label={prettyDLC} {...form.getInputProps(`envoys.${dlc}`)} />
+					))}
+				</FormHorizontalSection>
+				<FormHorizontalSection title="Governor Titles Rewarded">
+					{makeDLCInputs(({ dlc, prettyDLC }) => (
+						<NumberInput label={prettyDLC} {...form.getInputProps(`governorTitles.${dlc}`)} />
 					))}
 				</FormHorizontalSection>
 				<FormHorizontalSection title="Other Effects">
@@ -116,9 +131,9 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 						</Stack>
 					))}
 				</FormHorizontalSection>
-				<FormHorizontalSection title="Eureka">
+				<FormHorizontalSection title="Inspiration">
 					{makeDLCInputs(({ dlc, prettyDLC }) => (
-						<TextInput label={prettyDLC} placeholder="Eureka" {...form.getInputProps(`eureka.${dlc}`)} />
+						<TextInput label={prettyDLC} placeholder="Inspiration" {...form.getInputProps(`inspiration.${dlc}`)} />
 					))}
 				</FormHorizontalSection>
 				<Group grow>
@@ -134,5 +149,5 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	);
 };
 
-export default TechsForm;
+export default CivicsForm;
 
