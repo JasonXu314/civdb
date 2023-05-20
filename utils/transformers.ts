@@ -63,7 +63,7 @@ export function techToFormData(data: DeepPartial<CompleteTechnologyData>): FormD
 		}
 	});
 
-	(['otherEffects', 'eureka', 'dependencies'] as const).forEach((prop) => {
+	(['otherEffects', 'eureka', 'dependencies', 'cost'] as const).forEach((prop) => {
 		if (data[prop] !== undefined) {
 			fd.append(prop, JSON.stringify(data[prop]));
 		}
