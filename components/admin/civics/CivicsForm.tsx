@@ -81,16 +81,16 @@ const CivicsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	return (
 		<form onSubmit={form.onSubmit((values) => onSubmit(values as CompleteCivicData))}>
 			<Stack>
-				<TextInput label="Name" placeholder="Technology Name" {...form.getInputProps('name')} />
+				<TextInput label="Name" placeholder="Civic Name" {...form.getInputProps('name')} />
 				<FileInput label="Icon" {...form.getInputProps('icon')} />
 				{form.values.icon && <Image src={preview} height={75} width={75} />}
-				<Select label="Technology Era" data={ERAS} {...form.getInputProps('era')} />
+				<Select label="Civic Era" data={ERAS} {...form.getInputProps('era')} />
 				<Radio.Group label="DLC Added" {...form.getInputProps('addedBy')}>
 					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<Radio label={prettyDLC} value={dlc} />
 					))}
 				</Radio.Group>
-				<Textarea label="Description" placeholder="Technology Description" {...form.getInputProps('description')} />
+				<Textarea label="Description" placeholder="Civic Description" {...form.getInputProps('description')} />
 				<FormHorizontalSection title="Research Cost">
 					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<NumberInput label={prettyDLC} {...form.getInputProps(`cost.${dlc}`)} />
