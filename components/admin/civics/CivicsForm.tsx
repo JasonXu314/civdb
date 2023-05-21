@@ -100,7 +100,7 @@ const CivicsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 					{makeDLCInputs(({ dlc, prettyDLC }) => (
 						<MultiSelect
 							label={prettyDLC}
-							data={otherCivics.map((tech) => ({ label: tech.name, value: tech._id, tech }))}
+							data={otherCivics.map((civic) => ({ label: civic.name, value: civic._id, civic }))}
 							{...form.getInputProps(`dependencies.${dlc}`)}
 							itemComponent={CivicItem}
 							searchable
