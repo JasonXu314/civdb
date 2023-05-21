@@ -3,44 +3,46 @@ import { FormValidateInput } from '@mantine/form/lib/types';
 import { isNonNegative, isPositive } from '../validators';
 import { DLCString, Era } from './common';
 
-interface TechnologyBase<IconType> {
+interface CivicBase<IconType> {
 	name: string;
 	icon: IconType;
 	description: string;
 	cost: StatDLCRecord;
+	envoys: StatDLCRecord;
+	governorTitles: StatDLCRecord;
 	otherEffects: MultiDescDLCRecord;
-	eureka: DescDLCRecord;
+	inspiration: DescDLCRecord;
 }
 
-interface ConcreteTechnology<T> extends TechnologyBase<T> {
+interface ConcreteCivic<T> extends CivicBase<T> {
 	_id: string;
 	era: Era;
 	addedBy: DLCString;
 }
 
-interface TechnologyDataBase<T> extends TechnologyBase<T> {
+interface CivicDataBase<T> extends CivicBase<T> {
 	dependencies: MultiReferenceDLCRecord<string>;
 }
 
-export interface Technology extends ConcreteTechnology<string> {
-	dependencies: MultiReferenceDLCRecord<UnmarshalledTechnology>;
+export interface Civic extends ConcreteCivic<string> {
+	dependencies: MultiReferenceDLCRecord<UnmarshalledCivic>;
 }
 
-export interface UnmarshalledTechnology extends ConcreteTechnology<string> {
+export interface UnmarshalledCivic extends ConcreteCivic<string> {
 	dependencies: MultiReferenceDLCRecord<string>;
 }
 
-export interface TechnologyData extends TechnologyDataBase<File | null> {
+export interface CivicData extends CivicDataBase<File | null> {
 	era: Era | null;
 	addedBy: DLCString | null;
 }
 
-export interface CompleteTechnologyData extends TechnologyDataBase<File> {
+export interface CompleteCivicData extends CivicDataBase<File> {
 	era: Era;
 	addedBy: DLCString;
 }
 
-export const techValidators: FormValidateInput<TechnologyData> = {
+export const civicValidators: FormValidateInput<CivicData> = {
 	name: isNotEmpty('Name must not be empty'),
 	era: isNotEmpty('Must select an era'),
 	addedBy: isNotEmpty('Must select DLC the unit was added in'),
@@ -49,6 +51,11 @@ export const techValidators: FormValidateInput<TechnologyData> = {
 		base: isPositive('Must provide a base research cost', 'Research cost must be greater than 0'),
 		rf: isNonNegative('Research cost must be greater than 0'),
 		gs: isNonNegative('Research cost must be greater than 0')
+	},
+	envoys: {
+		base: isNonNegative('Envoys must not be negative'),
+		rf: isNonNegative('Envoys must not be negative'),
+		gs: isNonNegative('Envoys must not be negative')
 	}
 };
 
