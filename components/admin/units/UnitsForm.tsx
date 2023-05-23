@@ -2,10 +2,12 @@ import { Avatar, Button, Checkbox, FileInput, Group, Image, MultiSelect, NumberI
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useEffect, useMemo, useState } from 'react';
+import { UnmarshalledCivic } from '../../../utils/data/civics';
 import { ERAS, RESOURCES } from '../../../utils/data/common';
+import { UnmarshalledTechnology } from '../../../utils/data/technologies';
 import { CompleteUnitData, PROMOTION_CLASSES, UnitData, UnmarshalledUnit, unitValidators } from '../../../utils/data/units';
 import { makeDLCInputs } from '../../../utils/dlcInputs';
-import { getUnitsData } from '../../../utils/http';
+import { getCivicsData, getTechsData, getUnitsData } from '../../../utils/http';
 import FormHorizontalSection from '../FormHorizontalSection';
 
 interface Props {
@@ -16,6 +18,11 @@ interface Props {
 
 interface UnitItemProps extends React.ComponentPropsWithoutRef<'div'> {
 	unit: UnmarshalledUnit | null;
+}
+
+interface UnlockItemProps extends React.ComponentPropsWithoutRef<'div'> {
+	tech: UnmarshalledTechnology | null;
+	civic: UnmarshalledCivic | null;
 }
 
 // TODO: make analogues of this when techs/civics are implemented
@@ -30,10 +37,21 @@ const UnitItem = forwardRef<HTMLDivElement, UnitItemProps>(function UnitItem({ u
 	);
 });
 
+const UnlockItem = forwardRef<HTMLDivElement, UnlockItemProps>(function UnlockItem({ tech, civic, ...others }: UnlockItemProps, ref) {
+	return (
+		<div ref={ref} {...others}>
+			<Group noWrap sx={{ borderLeft: tech ? '2px solid' : '2px solid indigo' }}>
+				<Avatar src={tech ? tech.icon : civic ? civic.icon : undefined} />
+				<Text size="sm">{tech ? tech.name : civic ? civic.name : ''}</Text>
+			</Group>
+		</div>
+	);
+});
+
 const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	const [otherUnits, setOtherUnits] = useState<UnmarshalledUnit[]>([]);
-	const [techs, setTechs] = useState<any[]>([]); // TODO: implement this when techs are implemented
-	const [civics, setCivics] = useState<any[]>([]);
+	const [techs, setTechs] = useState<UnmarshalledTechnology[]>([]); // TODO: implement this when techs are implemented
+	const [civics, setCivics] = useState<UnmarshalledCivic[]>([]);
 	const form = useForm<UnitData>({
 		initialValues: initialValues || {
 			name: '',
@@ -100,6 +118,11 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 		getUnitsData() // TODO: this as any is kinda ugly
 			.then((res) => setOtherUnits(initialValues ? res.data.filter((unit) => unit._id !== (initialValues as any)._id) : res.data));
 	}, [initialValues]);
+
+	useEffect(() => {
+		getCivicsData().then((res) => setCivics(res.data));
+		getTechsData().then((res) => setTechs(res.data));
+	}, []);
 
 	return (
 		<form onSubmit={form.onSubmit((values) => onSubmit(values as CompleteUnitData))}>
@@ -211,11 +234,12 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 						<Select
 							label={prettyDLC}
 							data={[
-								{ label: '', value: null },
+								{ label: '', value: '', tech: null, civic: null },
 								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
 								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
 							]}
 							{...form.getInputProps(`unlockedBy.${dlc}`)}
+							itemComponent={UnlockItem}
 							searchable
 						/>
 					))}
@@ -225,11 +249,12 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 						<Select
 							label={prettyDLC}
 							data={[
-								{ label: '', value: null },
+								{ label: '', value: '', tech: null, civic: null },
 								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
 								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
 							]}
 							{...form.getInputProps(`obsoletedBy.${dlc}`)}
+							itemComponent={UnlockItem}
 							searchable
 						/>
 					))}
