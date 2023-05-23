@@ -40,7 +40,12 @@ const UnitItem = forwardRef<HTMLDivElement, UnitItemProps>(function UnitItem({ u
 const UnlockItem = forwardRef<HTMLDivElement, UnlockItemProps>(function UnlockItem({ tech, civic, ...others }: UnlockItemProps, ref) {
 	return (
 		<div ref={ref} {...others}>
-			<Group noWrap sx={{ borderLeft: tech ? '2px solid' : '2px solid indigo' }}>
+			<Group
+				noWrap
+				sx={(theme) => ({
+					borderLeft: tech || civic ? '2px solid' : undefined,
+					borderLeftColor: tech ? theme.colors.blue[5] : civic ? theme.colors.violet[9] : undefined
+				})}>
 				<Avatar src={tech ? tech.icon : civic ? civic.icon : undefined} />
 				<Text size="sm">{tech ? tech.name : civic ? civic.name : ''}</Text>
 			</Group>
@@ -50,7 +55,7 @@ const UnlockItem = forwardRef<HTMLDivElement, UnlockItemProps>(function UnlockIt
 
 const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 	const [otherUnits, setOtherUnits] = useState<UnmarshalledUnit[]>([]);
-	const [techs, setTechs] = useState<UnmarshalledTechnology[]>([]); // TODO: implement this when techs are implemented
+	const [techs, setTechs] = useState<UnmarshalledTechnology[]>([]);
 	const [civics, setCivics] = useState<UnmarshalledCivic[]>([]);
 	const form = useForm<UnitData>({
 		initialValues: initialValues || {
@@ -235,8 +240,8 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 							label={prettyDLC}
 							data={[
 								{ label: '', value: '', tech: null, civic: null },
-								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
-								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
+								...techs.map((tech) => ({ label: tech.name, value: tech._id, tech })),
+								...civics.map((civic) => ({ label: civic.name, value: civic._id, civic }))
 							]}
 							{...form.getInputProps(`unlockedBy.${dlc}`)}
 							itemComponent={UnlockItem}
@@ -250,8 +255,8 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 							label={prettyDLC}
 							data={[
 								{ label: '', value: '', tech: null, civic: null },
-								...techs.map((tech) => ({ label: tech.name, value: tech._id })),
-								...civics.map((civic) => ({ label: civic.name, value: civic._id }))
+								...techs.map((tech) => ({ label: tech.name, value: tech._id, tech })),
+								...civics.map((civic) => ({ label: civic.name, value: civic._id, civic }))
 							]}
 							{...form.getInputProps(`obsoletedBy.${dlc}`)}
 							itemComponent={UnlockItem}
