@@ -8,9 +8,9 @@ interface Props {
 
 const UnitListEntry: React.FC<Props> = ({ unit }) => {
 	return (
-		<Paper shadow="md" withBorder>
-			<Flex direction="row">
-				<Image src={unit.icon} height={75} width={75} />
+		<Paper shadow="md" withBorder p="sm">
+			<Flex direction="row" gap="lg">
+				<Image src={unit.icon} height={50} width={50} />
 				<Center>
 					<Anchor href="/admin/units/[id]" component={Link} as={`/admin/units/${unit._id}`}>
 						{unit.name}

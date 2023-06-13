@@ -1,4 +1,4 @@
-import { Anchor, AppShell, MantineProvider, Navbar, NavLink } from '@mantine/core';
+import { AppShell, MantineProvider, Navbar, NavLink } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -7,7 +7,7 @@ import Transition from '../components/Transition';
 import cache from '../mantine-cache';
 
 export default function App(props: AppProps) {
-	const { Component, pageProps } = props;
+	const { Component, pageProps, router } = props;
 
 	return (
 		<>
@@ -29,22 +29,13 @@ export default function App(props: AppProps) {
 					navbar={
 						<Navbar maw="min(20vw, 300px)">
 							<Navbar.Section>
+								<NavLink component={Link} label="Civics" href={router.pathname.includes('admin') ? '/admin/civics' : '/civics'} />
 								<NavLink
-									label={
-										<Anchor color="black" component={Link} href="/civs">
-											Civilizations
-										</Anchor>
-									}
+									component={Link}
+									label="Technologies"
+									href={router.pathname.includes('admin') ? '/admin/technologies' : '/technologies'}
 								/>
-							</Navbar.Section>
-							<Navbar.Section>
-								<NavLink
-									label={
-										<Anchor color="black" component={Link} href="/units">
-											Units
-										</Anchor>
-									}
-								/>
+								<NavLink component={Link} label="Units" href={router.pathname.includes('admin') ? '/admin/units' : '/units'} />
 							</Navbar.Section>
 						</Navbar>
 					}

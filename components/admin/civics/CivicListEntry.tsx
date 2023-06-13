@@ -8,9 +8,9 @@ interface Props {
 
 const CivicListEntry: React.FC<Props> = ({ civic }) => {
 	return (
-		<Paper shadow="md" withBorder>
-			<Flex direction="row">
-				<Image src={civic.icon} height={75} width={75} />
+		<Paper shadow="md" withBorder p="sm">
+			<Flex direction="row" gap="lg">
+				<Image src={civic.icon} height={50} width={50} />
 				<Center>
 					<Anchor href="/admin/civics/[id]" component={Link} as={`/admin/civics/${civic._id}`}>
 						{civic.name}

@@ -8,9 +8,9 @@ interface Props {
 
 const TechListEntry: React.FC<Props> = ({ tech }) => {
 	return (
-		<Paper shadow="md" withBorder>
-			<Flex direction="row">
-				<Image src={tech.icon} height={75} width={75} />
+		<Paper shadow="md" withBorder p="sm">
+			<Flex direction="row" gap="lg">
+				<Image src={tech.icon} height={50} width={50} />
 				<Center>
 					<Anchor href="/admin/technologies/[id]" component={Link} as={`/admin/technologies/${tech._id}`}>
 						{tech.name}
