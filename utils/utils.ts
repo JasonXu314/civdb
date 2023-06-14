@@ -48,3 +48,15 @@ export async function deepDiff<T>(a: T, b: T): Promise<DeepPartial<T>> {
 	return diff;
 }
 
+export function isUncapitalizedWord(word: string): boolean {
+	return ['of', 'the', 'a'].includes(word);
+}
+
+export function normalizeName(name: string): string {
+	return name
+		.toLowerCase()
+		.split(/[\s_]/)
+		.map((word, i) => (i === 0 || !isUncapitalizedWord(word) ? word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase() : word))
+		.join('_');
+}
+

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CompleteCivicData, UnmarshalledCivic } from './data/civics';
+import { Civic, CompleteCivicData, UnmarshalledCivic } from './data/civics';
 import { CompleteTechnologyData, Technology, UnmarshalledTechnology } from './data/technologies';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
 import { civicToFormData, techToFormData, unitToFormData } from './transformers';
@@ -50,6 +50,14 @@ export async function createTech(data: CompleteTechnologyData) {
 
 export async function updateTech(id: string, updates: DeepPartial<CompleteTechnologyData>) {
 	return backendClient.patch(`/technologies/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, techToFormData(updates));
+}
+
+export async function getCivics() {
+	return backendClient.get<Civic[]>('/civics');
+}
+
+export async function getCivicByName(name: string) {
+	return backendClient.get<Civic>(`/civics/${name}`);
 }
 
 export async function getCivicsData() {
