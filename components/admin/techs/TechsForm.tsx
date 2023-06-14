@@ -53,6 +53,9 @@ const TechsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				delete copy._id;
 			}
 
+			if (!copy.cost.rf) copy.cost.rf = null;
+			if (!copy.cost.gs) copy.cost.gs = null;
+
 			if (!copy.eureka.base) copy.eureka = { ...copy.eureka, base: null };
 			if (!copy.eureka.rf) copy.eureka = { ...copy.eureka, rf: null };
 			if (!copy.eureka.gs) copy.eureka = { ...copy.eureka, gs: null };
