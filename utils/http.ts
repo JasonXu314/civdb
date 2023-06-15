@@ -44,6 +44,10 @@ export async function getTechById(id: string) {
 	return backendClient.get<UnmarshalledTechnology>(`/technologies/data/${id}`);
 }
 
+export async function getTechByName(name: string) {
+	return backendClient.get<Technology>(`/technologies/${name}`);
+}
+
 export async function createTech(data: CompleteTechnologyData) {
 	return backendClient.post<UnmarshalledTechnology>(`/technologies/data?secret=${localStorage.getItem('civdb:secret')}`, techToFormData(data));
 }

@@ -24,6 +24,7 @@ interface TechnologyDataBase<T> extends TechnologyBase<T> {
 
 export interface Technology extends ConcreteTechnology<string> {
 	dependencies: MultiReferenceDLCRecord<UnmarshalledTechnology>;
+	dependents: MultiReferenceDLCRecord<UnmarshalledTechnology>;
 }
 
 export interface UnmarshalledTechnology extends ConcreteTechnology<string> {
