@@ -1,7 +1,7 @@
 import { Anchor, Card, Center, Divider, Image, SimpleGrid, Space, Stack, Text, Title } from '@mantine/core';
 import Link from 'next/link';
 import { Technology } from '../../utils/data/technologies';
-import { prettyExpansion } from '../../utils/utils';
+import { normalizeName, prettyExpansion } from '../../utils/utils';
 import ExpansionRenderer, { makeExpansionCases } from '../ExpansionRenderer';
 
 interface Props {
@@ -50,7 +50,7 @@ const TechStatSummary: React.FC<Props> = ({ tech }) => {
 											<Image src={dep.icon} height={50} width={50} />
 										</Center>
 										<Center>
-											<Anchor component={Link} href="/technologies/[name]" as={`/technologies/${dep.name}`}>
+											<Anchor component={Link} href="/technologies/[name]" as={`/technologies/${normalizeName(dep.name)}`}>
 												{dep.name}
 											</Anchor>
 										</Center>
@@ -72,7 +72,7 @@ const TechStatSummary: React.FC<Props> = ({ tech }) => {
 											<Image src={dep.icon} height={50} width={50} />
 										</Center>
 										<Center>
-											<Anchor component={Link} href="/technologies/[name]" as={`/technologies/${dep.name}`}>
+											<Anchor component={Link} href="/technologies/[name]" as={`/technologies/${normalizeName(dep.name)}`}>
 												{dep.name}
 											</Anchor>
 										</Center>

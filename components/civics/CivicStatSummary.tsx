@@ -1,7 +1,7 @@
 import { Anchor, Card, Center, Divider, Image, SimpleGrid, Space, Stack, Text, Title } from '@mantine/core';
 import Link from 'next/link';
 import { Civic } from '../../utils/data/civics';
-import { prettyExpansion } from '../../utils/utils';
+import { normalizeName, prettyExpansion } from '../../utils/utils';
 import ExpansionRenderer, { makeExpansionCases } from '../ExpansionRenderer';
 
 interface Props {
@@ -50,7 +50,7 @@ const CivicStatSummary: React.FC<Props> = ({ civic }) => {
 											<Image src={dep.icon} height={50} width={50} />
 										</Center>
 										<Center>
-											<Anchor component={Link} href="/civics/[name]" as={`/civics/${dep.name}`}>
+											<Anchor component={Link} href="/civics/[name]" as={`/civics/${normalizeName(dep.name)}`}>
 												{dep.name}
 											</Anchor>
 										</Center>
@@ -72,7 +72,7 @@ const CivicStatSummary: React.FC<Props> = ({ civic }) => {
 											<Image src={dep.icon} height={50} width={50} />
 										</Center>
 										<Center>
-											<Anchor component={Link} href="/civics/[name]" as={`/civics/${dep.name}`}>
+											<Anchor component={Link} href="/civics/[name]" as={`/civics/${normalizeName(dep.name)}`}>
 												{dep.name}
 											</Anchor>
 										</Center>

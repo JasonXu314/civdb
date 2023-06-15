@@ -18,7 +18,7 @@ const TechName: NextPage = () => {
 
 		if (techName !== undefined) {
 			if (normalizeName(techName) !== techName) {
-				router.replace('/civics/[name]', `/civics/${normalizeName(techName)}`);
+				router.replace('/technologies/[name]', `/technologies/${normalizeName(techName)}`);
 				return;
 			}
 
@@ -57,7 +57,7 @@ const TechName: NextPage = () => {
 			</Head>
 			<Title>{tech.name}</Title>
 			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
-				<Text>{tech.description}</Text>
+				<Text maw="60vw">{tech.description}</Text>
 				<TechStatSummary tech={tech} />
 			</Group>
 		</>
