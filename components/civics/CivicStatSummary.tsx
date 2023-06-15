@@ -97,7 +97,9 @@ const CivicStatSummary: React.FC<Props> = ({ civic }) => {
 								{civic.envoys[exp] && <Text>Awards {civic.envoys[exp]} Envoys</Text>}
 								{civic.governorTitles[exp] && <Text>Awards {civic.governorTitles[exp]} Governor Titles</Text>}
 								{civic.otherEffects[exp].map((effect, i) => (
-									<Text key={i}>{effect}</Text>
+									<Text key={i} maw="12.5vw">
+										{effect}
+									</Text>
 								))}
 							</Stack>
 						),
