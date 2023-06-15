@@ -1,8 +1,9 @@
-import { Title } from '@mantine/core';
+import { Group, Text, Title } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
+import TechStatSummary from '../../components/techs/TechStatSummary';
 import { Technology } from '../../utils/data/technologies';
 import { getTechByName } from '../../utils/http';
 import { normalizeName } from '../../utils/utils';
@@ -54,7 +55,11 @@ const TechName: NextPage = () => {
 			<Head>
 				<title>CivDB | Technologies</title>
 			</Head>
-			<pre>{JSON.stringify(tech, null, 4)}</pre>
+			<Title>{tech.name}</Title>
+			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
+				<Text>{tech.description}</Text>
+				<TechStatSummary tech={tech} />
+			</Group>
 		</>
 	);
 };
