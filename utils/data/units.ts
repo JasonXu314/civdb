@@ -115,15 +115,6 @@ export const unitValidators: FormValidateInput<UnitData> = {
 	promotionClass: isNotEmpty('Must select a promotion class'),
 	era: isNotEmpty('Must select an era'),
 	addedBy: isNotEmpty('Must select DLC the unit was added in'),
-	production: {
-		base: isPositive('Must provide a base production cost', 'Production cost must be greater than 0')
-	},
-	gold: {
-		base: isPositive('Must provide a base gold cost', 'Gold cost must be greater than 0')
-	},
-	maintenance: {
-		base: isNonNegative('Maintenance cost must be greater than or equal to 0')
-	},
 	resource: {
 		base: {
 			resource: isNotEmpty('Must provide resource'),

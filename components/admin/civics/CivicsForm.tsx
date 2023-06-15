@@ -58,6 +58,7 @@ const CivicsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 				delete copy._id;
 			}
 
+			if (!copy.cost.base) copy.cost.base = null;
 			if (!copy.cost.rf) copy.cost.rf = null;
 			if (!copy.cost.gs) copy.cost.gs = null;
 
