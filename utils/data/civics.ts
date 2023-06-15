@@ -26,6 +26,7 @@ interface CivicDataBase<T> extends CivicBase<T> {
 
 export interface Civic extends ConcreteCivic<string> {
 	dependencies: MultiReferenceDLCRecord<UnmarshalledCivic>;
+	dependents: MultiReferenceDLCRecord<UnmarshalledCivic>;
 }
 
 export interface UnmarshalledCivic extends ConcreteCivic<string> {
