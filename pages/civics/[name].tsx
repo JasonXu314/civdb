@@ -56,7 +56,7 @@ const CivicName: NextPage = () => {
 				<title>CivDB | Civics</title>
 			</Head>
 			<Title>{civic.name}</Title>
-			<Group align="baseline" sx={{ justifyContent: 'space-around' }}>
+			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
 				<Text>{civic.description}</Text>
 				<CivicStatSummary civic={civic} />
 			</Group>

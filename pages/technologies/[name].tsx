@@ -56,7 +56,7 @@ const TechName: NextPage = () => {
 				<title>CivDB | Technologies</title>
 			</Head>
 			<Title>{tech.name}</Title>
-			<Group align="baseline" sx={{ justifyContent: 'space-around' }}>
+			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
 				<Text>{tech.description}</Text>
 				<TechStatSummary tech={tech} />
 			</Group>
