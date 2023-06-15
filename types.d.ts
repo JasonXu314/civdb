@@ -34,7 +34,7 @@ interface MultiDescDLCRecord {
 }
 
 interface StatDLCRecord {
-	base: number;
+	base: number | null;
 	rf: number | null;
 	gs: number | null;
 }

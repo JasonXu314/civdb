@@ -93,6 +93,7 @@ const UnitsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) => {
 			}
 
 			(['production', 'gold', 'maintenance'] as const).forEach((key) => {
+				if (!copy[key].base) copy[key].base = null;
 				if (!copy[key].rf) copy[key].rf = null;
 				if (!copy[key].gs) copy[key].gs = null;
 			});
