@@ -1,4 +1,5 @@
 export const FILE_NAME_REGEX = /^attachment; filename="([^"]+)"$/;
+export const EXPANSION_ORDER = ['base', 'rf', 'gs'] as const;
 
 export async function deepDiff<T>(a: T, b: T): Promise<DeepPartial<T>> {
 	if (!b) return b;
@@ -60,3 +61,24 @@ export function normalizeName(name: string): string {
 		.join('_');
 }
 
+export function compareExpansions(expA: Expansion, expB: Expansion): number {
+	return EXPANSION_ORDER.indexOf(expA) - EXPANSION_ORDER.indexOf(expB);
+}
+
+/**
+ * Returns true if expA preceedes expB
+ */
+export function expansionPreceedes(expA: Expansion, expB: Expansion): boolean {
+	return compareExpansions(expA, expB) < 0;
+}
+
+export function prettyExpansion(expansion: Expansion): string {
+	switch (expansion) {
+		case 'base':
+			return 'Base Game';
+		case 'rf':
+			return 'Rise & Fall';
+		case 'gs':
+			return 'Gathering Storm';
+	}
+}

@@ -1,8 +1,9 @@
-import { Title } from '@mantine/core';
+import { Group, Text, Title } from '@mantine/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
+import CivicStatSummary from '../../components/civics/CivicStatSummary';
 import { Civic } from '../../utils/data/civics';
 import { getCivicByName } from '../../utils/http';
 import { normalizeName } from '../../utils/utils';
@@ -54,7 +55,11 @@ const CivicName: NextPage = () => {
 			<Head>
 				<title>CivDB | Civics</title>
 			</Head>
-			<pre>{JSON.stringify(civic, null, 4)}</pre>
+			<Title>{civic.name}</Title>
+			<Group align="baseline" sx={{ justifyContent: 'space-around' }}>
+				<Text>{civic.description}</Text>
+				<CivicStatSummary civic={civic} />
+			</Group>
 		</>
 	);
 };
