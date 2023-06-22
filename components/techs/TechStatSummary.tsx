@@ -95,7 +95,7 @@ const TechStatSummary: React.FC<Props> = ({ tech }) => {
 						) : (
 							<Stack>
 								{tech.otherEffects[exp].map((effect, i) => (
-									<Text key={i} maw="12.5vw">
+									<Text key={i} maw="15vw">
 										{effect}
 									</Text>
 								))}
