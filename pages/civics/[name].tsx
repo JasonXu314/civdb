@@ -57,8 +57,8 @@ const CivicName: NextPage = () => {
 			</Head>
 			<Title>{civic.name}</Title>
 			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
-				<Text maw="60vw">{civic.description}</Text>
 				<CivicStatSummary civic={civic} />
+				<Text maw="60vw">{civic.description}</Text>
 			</Group>
 		</>
 	);

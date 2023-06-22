@@ -57,8 +57,8 @@ const TechName: NextPage = () => {
 			</Head>
 			<Title>{tech.name}</Title>
 			<Group align="baseline" sx={{ justifyContent: 'space-between' }} pr="lg">
-				<Text maw="60vw">{tech.description}</Text>
 				<TechStatSummary tech={tech} />
+				<Text maw="60vw">{tech.description}</Text>
 			</Group>
 		</>
 	);
