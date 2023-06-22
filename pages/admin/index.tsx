@@ -21,6 +21,9 @@ const Admin: NextPage = () => {
 				<Anchor component={Link} href="/admin/technologies">
 					Units
 				</Anchor>
+				<Anchor component={Link} href="/admin/terrains">
+					Terrains
+				</Anchor>
 			</Stack>
 		</>
 	);

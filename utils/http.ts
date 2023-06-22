@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { Civic, CompleteCivicData, UnmarshalledCivic } from './data/civics';
 import { CompleteTechnologyData, Technology, UnmarshalledTechnology } from './data/technologies';
+import { CompleteTerrainData, Terrain, UnmarshalledTerrain } from './data/terrains';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
-import { civicToFormData, techToFormData, unitToFormData } from './transformers';
+import { civicToFormData, techToFormData, terrainToFormData, unitToFormData } from './transformers';
 
 export const backendClient = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
@@ -78,5 +79,29 @@ export async function createCivic(data: CompleteCivicData) {
 
 export async function updateCivic(id: string, updates: DeepPartial<CompleteCivicData>) {
 	return backendClient.patch(`/civics/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, civicToFormData(updates));
+}
+
+export async function getTerrains() {
+	return backendClient.get<Terrain[]>('/terrains');
+}
+
+export async function getTerrainByName(name: string) {
+	return backendClient.get<Terrain>(`/terrains/${name}`);
+}
+
+export async function getTerrainsData() {
+	return backendClient.get<UnmarshalledTerrain[]>('/terrains/data');
+}
+
+export async function getTerrainById(id: string) {
+	return backendClient.get<UnmarshalledTerrain>(`/terrains/data/${id}`);
+}
+
+export async function createTerrain(data: CompleteTerrainData) {
+	return backendClient.post<UnmarshalledTerrain>(`/terrains/data?secret=${localStorage.getItem('civdb:secret')}`, terrainToFormData(data));
+}
+
+export async function updateTerrain(id: string, updates: DeepPartial<CompleteTerrainData>) {
+	return backendClient.patch(`/terrains/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, terrainToFormData(updates));
 }
 

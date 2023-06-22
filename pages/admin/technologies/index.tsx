@@ -52,5 +52,5 @@ const Index: NextPage = () => {
 	);
 };
 
-export default withAuth(Index, 'Admin Panel - Units');
+export default withAuth(Index, 'Admin Panel - Technologies');
 

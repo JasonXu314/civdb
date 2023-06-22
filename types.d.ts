@@ -5,6 +5,9 @@ type DeepPartial<T> = {
 
 type Expansion = 'base' | 'rf' | 'gs';
 
+type Resource = 'Horses' | 'Iron' | 'Niter' | 'Coal' | 'Oil' | 'Aluminum' | 'Uranium';
+type Yield = 'Food' | 'Production' | 'Gold' | 'Science' | 'Culture' | 'Faith' | 'Power' | 'Diplomatic Favor' | 'Tourism';
+
 interface ErrorResponse {
 	statusCode: number;
 	message: string;
@@ -41,14 +44,25 @@ interface StatDLCRecord {
 	gs: number | null;
 }
 
-interface ResourceRequirement {
+interface ResourceRecord {
 	resource: Resource;
 	quantity: number;
 }
 
 interface ResourceDLCRecord {
-	base: ResourceRequirement | null;
-	rf: ResourceRequirement | null;
-	gs: ResourceRequirement | null;
+	base: ResourceRecord | null;
+	rf: ResourceRecord | null;
+	gs: ResourceRecord | null;
+}
+
+interface YieldRecord {
+	yield: Yield;
+	quantity: number;
+}
+
+interface YieldDLCRecord {
+	base: YieldRecord | null;
+	rf: YieldRecord | null;
+	gs: YieldRecord | null;
 }
 

@@ -9,8 +9,8 @@ export enum DLC {
 export type DLCString = 'base' | 'rf' | 'gs';
 export const DLC_STRINGS = ['base', 'rf', 'gs'];
 
-export type Resource = 'Horses' | 'Iron' | 'Niter' | 'Coal' | 'Oil' | 'Aluminum' | 'Uranium';
 export const RESOURCES = ['Horses', 'Iron', 'Niter', 'Coal', 'Oil', 'Aluminum', 'Uranium'] as const;
+export const YIELDS = ['Food', 'Production', 'Gold', 'Science', 'Culture', 'Faith', 'Power', 'Diplomatic Favor', 'Tourism'] as const;
 
 export function dlcValue(dlc: DLCString): DLC {
 	switch (dlc) {
