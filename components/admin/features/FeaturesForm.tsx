@@ -92,15 +92,15 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					{form.values.yieldModifier.map((_, i) => (
 						<Center key={i}>
 							<Group>
-								<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`yields.${i}.yield`)} />
-								<NumberInput {...form.getInputProps(`yields.${i}.quantity`)} />
+								<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`yieldModifier.${i}.yield`)} />
+								<NumberInput {...form.getInputProps(`yieldModifier.${i}.quantity`)} />
 							</Group>
 						</Center>
 					))}
 					<Group position="center">
 						<Button
 							onClick={() => {
-								form.setFieldValue('yields', form.values.yieldModifier.concat({ yield: 'Food', quantity: 0 }));
+								form.setFieldValue('yieldModifier', form.values.yieldModifier.concat({ yield: 'Food', quantity: 0 }));
 							}}
 							rightIcon={<PlusCircledIcon width={24} height={24} />}>
 							Add
