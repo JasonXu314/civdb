@@ -1,4 +1,20 @@
-import { Avatar, Button, Center, FileInput, Group, Image, NativeSelect, NumberInput, Radio, Stack, Text, TextInput, Textarea, Title } from '@mantine/core';
+import {
+	Avatar,
+	Button,
+	Center,
+	FileInput,
+	Group,
+	Image,
+	NativeSelect,
+	NumberInput,
+	Radio,
+	Stack,
+	Switch,
+	Text,
+	TextInput,
+	Textarea,
+	Title
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { CheckIcon, CrossCircledIcon, PlusCircledIcon } from '@radix-ui/react-icons';
 import React, { forwardRef, useMemo } from 'react';
@@ -38,6 +54,8 @@ const TerrainsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					description: '',
 					yields: [],
 					movementCost: 0,
+					defenseModifier: 0,
+					impassable: false,
 					weatherEffects: []
 			  },
 		validate: terrainValidators
@@ -57,6 +75,8 @@ const TerrainsForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					))}
 				</Radio.Group>
 				<NumberInput label="Movement Cost" {...form.getInputProps('movementCost')} />
+				<NumberInput label="Defense Modifier" {...form.getInputProps('defenseModifier')} />
+				<Switch label="Impassable" {...form.getInputProps('impassable', { type: 'checkbox' })} />
 				<Textarea label="Description" placeholder="Terrain Description" {...form.getInputProps('description')} />
 				<Stack>
 					<Title order={4}>Yields</Title>

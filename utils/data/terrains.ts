@@ -9,6 +9,8 @@ interface TerrainBase<IconType> {
 	description: string;
 	yields: YieldRecord[];
 	movementCost: number;
+	defenseModifier: number;
+	impassable: boolean;
 	weatherEffects: string[];
 }
 
