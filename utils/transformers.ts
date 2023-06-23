@@ -135,7 +135,7 @@ export function featureToFormData(data: DeepPartial<CompleteFeatureData>): FormD
 		}
 	});
 
-	(['yieldModifier'] as const).forEach((prop) => {
+	(['yieldModifier', 'validTerrain'] as const).forEach((prop) => {
 		if (data[prop] !== undefined) {
 			fd.append(prop, JSON.stringify(data[prop]));
 		}
