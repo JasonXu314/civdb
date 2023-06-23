@@ -38,6 +38,7 @@ export default function App(props: AppProps) {
 									label="Technologies"
 									href={router.pathname.includes('admin') ? '/admin/technologies' : '/technologies'}
 								/>
+								<NavLink component={Link} label="Features" href={router.pathname.includes('admin') ? '/admin/features' : '/features'} />
 								<NavLink component={Link} label="Terrains" href={router.pathname.includes('admin') ? '/admin/terrains' : '/terrains'} />
 								<NavLink component={Link} label="Units" href={router.pathname.includes('admin') ? '/admin/units' : '/units'} />
 							</Navbar.Section>

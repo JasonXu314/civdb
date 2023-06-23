@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { Civic, CompleteCivicData, UnmarshalledCivic } from './data/civics';
+import { CompleteFeatureData, Feature, UnmarshalledFeature } from './data/features';
 import { CompleteTechnologyData, Technology, UnmarshalledTechnology } from './data/technologies';
 import { CompleteTerrainData, Terrain, UnmarshalledTerrain } from './data/terrains';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
-import { civicToFormData, techToFormData, terrainToFormData, unitToFormData } from './transformers';
+import { civicToFormData, featureToFormData, techToFormData, terrainToFormData, unitToFormData } from './transformers';
 
 export const backendClient = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
@@ -103,5 +104,29 @@ export async function createTerrain(data: CompleteTerrainData) {
 
 export async function updateTerrain(id: string, updates: DeepPartial<CompleteTerrainData>) {
 	return backendClient.patch(`/terrains/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, terrainToFormData(updates));
+}
+
+export async function getFeatures() {
+	return backendClient.get<Feature[]>('/features');
+}
+
+export async function getFeatureByName(name: string) {
+	return backendClient.get<Feature>(`/features/${name}`);
+}
+
+export async function getFeaturesData() {
+	return backendClient.get<UnmarshalledFeature[]>('/features/data');
+}
+
+export async function getFeatureById(id: string) {
+	return backendClient.get<UnmarshalledFeature>(`/features/data/${id}`);
+}
+
+export async function createFeature(data: CompleteFeatureData) {
+	return backendClient.post<UnmarshalledFeature>(`/features/data?secret=${localStorage.getItem('civdb:secret')}`, featureToFormData(data));
+}
+
+export async function updateFeature(id: string, updates: DeepPartial<CompleteFeatureData>) {
+	return backendClient.patch(`/features/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, terrainToFormData(updates));
 }
 
