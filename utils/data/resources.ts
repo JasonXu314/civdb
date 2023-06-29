@@ -2,47 +2,50 @@ import { isNotEmpty } from '@mantine/form';
 import { FormValidateInput } from '@mantine/form/lib/types';
 import { isNonNegative } from '../validators';
 import { DLCString, YIELDS } from './common';
+import { UnmarshalledTechnology } from './technologies';
 import { UnmarshalledTerrain } from './terrains';
 
-interface FeatureBase<IconType> {
+interface ResourceBase<IconType> {
 	name: string;
 	icon: IconType;
 	description: string;
 	yieldModifier: YieldRecord[];
-	harvestYield: YieldRecord | null;
-	movementCostModifier: number;
-	defenseModifier: number;
-	impassable: boolean;
-	removable: boolean;
-	harvestable: boolean;
+	harvestYield: YieldRecord;
+	otherNotes: string[];
 }
 
-interface ConcreteFeature<T> extends FeatureBase<T> {
+interface ConcreteResource<T> extends ResourceBase<T> {
 	_id: string;
 	addedBy: DLCString;
 }
 
-interface FeatureDataBase<T> extends FeatureBase<T> {
+interface ResourceDataBase<T> extends ResourceBase<T> {
 	validTerrain: string[];
+	validFeatures: string[];
+	harvestTech: string;
 }
 
-export interface Feature extends ConcreteFeature<string> {
+export interface Resource extends ConcreteResource<string> {
 	validTerrain: UnmarshalledTerrain[];
+	validFeatures: UnmarshalledResource[];
+	harvestTech: UnmarshalledTechnology;
 }
 
-export interface UnmarshalledFeature extends ConcreteFeature<string> {
+export interface UnmarshalledResource extends ConcreteResource<string> {
 	validTerrain: string[];
+	validFeatures: string[];
+	harvestTech: string;
 }
 
-export interface FeatureData extends FeatureDataBase<File | null> {
+export interface ResourceData extends ResourceDataBase<File | null> {
 	addedBy: DLCString | null;
 }
 
-export interface CompleteFeatureData extends FeatureDataBase<File> {
+export interface CompleteResourceData extends ResourceDataBase<File> {
 	addedBy: DLCString;
 }
 
-export const featureValidators: FormValidateInput<FeatureData> = {
+export const resourceValidators: FormValidateInput<ResourceData> = {
 	name: isNotEmpty('Name must not be empty'),
 	addedBy: isNotEmpty('Must select DLC the unit was added in'),
 	icon: isNotEmpty('Must provide unit icon'),

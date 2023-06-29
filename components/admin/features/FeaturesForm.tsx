@@ -62,7 +62,9 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					defenseModifier: 0,
 					removable: false,
 					impassable: false,
-					validTerrain: []
+					validTerrain: [],
+					harvestable: false,
+					harvestYield: null
 			  },
 		validate: featureValidators
 	});
@@ -88,6 +90,25 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 				<NumberInput label="Defense Modifier" {...form.getInputProps('defenseModifier')} />
 				<Switch label="Removable" {...form.getInputProps('removable', { type: 'checkbox' })} />
 				<Switch label="Impassable" {...form.getInputProps('impassable', { type: 'checkbox' })} />
+				<Switch
+					label="Harvestable"
+					{...form.getInputProps('harvestable', { type: 'checkbox' })}
+					onChange={(evt) => {
+						form.getInputProps('harvestable', { type: 'checkbox' }).onChange(evt);
+						if (evt.target.checked) {
+							form.setFieldValue('harvestYield', { yield: 'Food', quantity: 0 });
+						} else {
+							form.setFieldValue('harvestYield', null);
+						}
+					}}
+				/>
+				{form.values.harvestable && (
+					<Group>
+						<Title order={4}>Harvest Yield</Title>
+						<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`harvestYield.yield`)} />
+						<NumberInput {...form.getInputProps(`harvestYield.quantity`)} />
+					</Group>
+				)}
 				<Textarea label="Description" placeholder="Feature Description" {...form.getInputProps('description')} />
 				<Stack>
 					<Title order={4}>Yield Modifier(s)</Title>

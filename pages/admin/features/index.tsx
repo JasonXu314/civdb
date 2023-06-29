@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
-import FeatureListEntry from '../../../components/admin/features/FeatueListEntry';
+import FeatureListEntry from '../../../components/admin/features/FeatureListEntry';
 import { withAuth } from '../../../utils/auth';
 import { UnmarshalledFeature } from '../../../utils/data/features';
 import { getFeaturesData } from '../../../utils/http';

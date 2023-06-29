@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { Civic, CompleteCivicData, UnmarshalledCivic } from './data/civics';
 import { CompleteFeatureData, Feature, UnmarshalledFeature } from './data/features';
+import { CompleteResourceData, Resource, UnmarshalledResource } from './data/resources';
 import { CompleteTechnologyData, Technology, UnmarshalledTechnology } from './data/technologies';
 import { CompleteTerrainData, Terrain, UnmarshalledTerrain } from './data/terrains';
 import { CompleteUnitData, UnmarshalledUnit } from './data/units';
-import { civicToFormData, featureToFormData, techToFormData, terrainToFormData, unitToFormData } from './transformers';
+import { civicToFormData, featureToFormData, resourceToFormData, techToFormData, terrainToFormData, unitToFormData } from './transformers';
 
 export const backendClient = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_BACKEND_URL
@@ -128,5 +129,29 @@ export async function createFeature(data: CompleteFeatureData) {
 
 export async function updateFeature(id: string, updates: DeepPartial<CompleteFeatureData>) {
 	return backendClient.patch(`/features/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, featureToFormData(updates));
+}
+
+export async function getResources() {
+	return backendClient.get<Resource[]>('/resources');
+}
+
+export async function getResourceByName(name: string) {
+	return backendClient.get<Resource>(`/resources/${name}`);
+}
+
+export async function getResourcesData() {
+	return backendClient.get<UnmarshalledResource[]>('/resources/data');
+}
+
+export async function getResourceById(id: string) {
+	return backendClient.get<UnmarshalledResource>(`/resources/data/${id}`);
+}
+
+export async function createResource(data: CompleteResourceData) {
+	return backendClient.post<UnmarshalledResource>(`/resources/data?secret=${localStorage.getItem('civdb:secret')}`, resourceToFormData(data));
+}
+
+export async function updateResource(id: string, updates: DeepPartial<CompleteResourceData>) {
+	return backendClient.patch(`/resources/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, resourceToFormData(updates));
 }
 

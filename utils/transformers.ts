@@ -1,5 +1,6 @@
 import { CompleteCivicData } from './data/civics';
 import { CompleteFeatureData } from './data/features';
+import { CompleteResourceData } from './data/resources';
 import { CompleteTechnologyData } from './data/technologies';
 import { CompleteTerrainData } from './data/terrains';
 import { CompleteUnitData } from './data/units';
@@ -128,14 +129,37 @@ export function terrainToFormData(data: DeepPartial<CompleteTerrainData>): FormD
 export function featureToFormData(data: DeepPartial<CompleteFeatureData>): FormData {
 	const fd = new FormData();
 
-	(['name', 'description', 'addedBy', 'movementCostModifier', 'defenseModifier', 'removable', 'impassable'] as const).forEach((prop) => {
+	(['name', 'description', 'addedBy', 'movementCostModifier', 'defenseModifier', 'removable', 'impassable', 'harvestable'] as const).forEach((prop) => {
 		const val = data[prop];
 		if (val !== undefined) {
 			fd.append(prop, val !== null ? val.toString() : 'null');
 		}
 	});
 
-	(['yieldModifier', 'validTerrain'] as const).forEach((prop) => {
+	(['yieldModifier', 'validTerrain', 'harvestYield'] as const).forEach((prop) => {
+		if (data[prop] !== undefined) {
+			fd.append(prop, JSON.stringify(data[prop]));
+		}
+	});
+
+	if (data.icon) {
+		fd.append('icon', data.icon, data.icon.name);
+	}
+
+	return fd;
+}
+
+export function resourceToFormData(data: DeepPartial<CompleteResourceData>): FormData {
+	const fd = new FormData();
+
+	(['name', 'description', 'addedBy', 'harvestTech'] as const).forEach((prop) => {
+		const val = data[prop];
+		if (val !== undefined) {
+			fd.append(prop, val !== null ? val.toString() : 'null');
+		}
+	});
+
+	(['yieldModifier', 'harvestYield', 'validTerrain', 'validFeatures', 'otherNotes'] as const).forEach((prop) => {
 		if (data[prop] !== undefined) {
 			fd.append(prop, JSON.stringify(data[prop]));
 		}
