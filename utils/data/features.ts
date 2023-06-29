@@ -11,6 +11,7 @@ interface FeatureBase<IconType> {
 	yieldModifier: YieldRecord[];
 	movementCostModifier: number;
 	defenseModifier: number;
+	impassable: boolean;
 	removable: boolean;
 }
 

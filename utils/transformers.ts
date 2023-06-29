@@ -128,7 +128,7 @@ export function terrainToFormData(data: DeepPartial<CompleteTerrainData>): FormD
 export function featureToFormData(data: DeepPartial<CompleteFeatureData>): FormData {
 	const fd = new FormData();
 
-	(['name', 'description', 'addedBy', 'movementCostModifier', 'defenseModifier', 'removable'] as const).forEach((prop) => {
+	(['name', 'description', 'addedBy', 'movementCostModifier', 'defenseModifier', 'removable', 'impassable'] as const).forEach((prop) => {
 		const val = data[prop];
 		if (val !== undefined) {
 			fd.append(prop, val !== null ? val.toString() : 'null');

@@ -61,6 +61,7 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					movementCostModifier: 0,
 					defenseModifier: 0,
 					removable: false,
+					impassable: false,
 					validTerrain: []
 			  },
 		validate: featureValidators
@@ -86,6 +87,7 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 				<NumberInput label="Movement Modifier" {...form.getInputProps('movementCostModifier')} />
 				<NumberInput label="Defense Modifier" {...form.getInputProps('defenseModifier')} />
 				<Switch label="Removable" {...form.getInputProps('removable', { type: 'checkbox' })} />
+				<Switch label="Impassable" {...form.getInputProps('impassable', { type: 'checkbox' })} />
 				<Textarea label="Description" placeholder="Feature Description" {...form.getInputProps('description')} />
 				<Stack>
 					<Title order={4}>Yield Modifier(s)</Title>

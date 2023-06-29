@@ -82,3 +82,4 @@ export function prettyExpansion(expansion: Expansion): string {
 			return 'Gathering Storm';
 	}
 }
+

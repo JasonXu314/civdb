@@ -127,6 +127,6 @@ export async function createFeature(data: CompleteFeatureData) {
 }
 
 export async function updateFeature(id: string, updates: DeepPartial<CompleteFeatureData>) {
-	return backendClient.patch(`/features/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, terrainToFormData(updates));
+	return backendClient.patch(`/features/data/${id}?secret=${localStorage.getItem('civdb:secret')}`, featureToFormData(updates));
 }
 
