@@ -9,7 +9,7 @@ interface FeatureBase<IconType> {
 	icon: IconType;
 	description: string;
 	yieldModifier: YieldRecord[];
-	harvestYield: YieldRecord | null;
+	harvestYield: YieldRecord[];
 	movementCostModifier: number;
 	defenseModifier: number;
 	impassable: boolean;

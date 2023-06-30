@@ -24,6 +24,7 @@ import { CompleteFeatureData, FeatureData, UnmarshalledFeature, featureValidator
 import { UnmarshalledTerrain } from '../../../utils/data/terrains';
 import { makeDLCInputs } from '../../../utils/dlcInputs';
 import { getTerrainsData } from '../../../utils/http';
+import FormHorizontalSection from '../FormHorizontalSection';
 import { TerrainItem } from '../terrains/TerrainsForm';
 
 interface Props {
@@ -64,7 +65,7 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					impassable: false,
 					validTerrain: [],
 					harvestable: false,
-					harvestYield: null
+					harvestYield: []
 			  },
 		validate: featureValidators
 	});
@@ -95,41 +96,54 @@ const FeaturesForm: React.FC<Props> = ({ onSubmit, onCancel, initialValues }) =>
 					{...form.getInputProps('harvestable', { type: 'checkbox' })}
 					onChange={(evt) => {
 						form.getInputProps('harvestable', { type: 'checkbox' }).onChange(evt);
-						if (evt.target.checked) {
-							form.setFieldValue('harvestYield', { yield: 'Food', quantity: 0 });
-						} else {
-							form.setFieldValue('harvestYield', null);
-						}
+						form.setFieldValue('harvestYield', []);
 					}}
 				/>
-				{form.values.harvestable && (
-					<Group>
-						<Title order={4}>Harvest Yield</Title>
-						<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`harvestYield.yield`)} />
-						<NumberInput {...form.getInputProps(`harvestYield.quantity`)} />
-					</Group>
-				)}
 				<Textarea label="Description" placeholder="Feature Description" {...form.getInputProps('description')} />
-				<Stack>
-					<Title order={4}>Yield Modifier(s)</Title>
-					{form.values.yieldModifier.map((_, i) => (
-						<Center key={i}>
-							<Group>
-								<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`yieldModifier.${i}.yield`)} />
-								<NumberInput {...form.getInputProps(`yieldModifier.${i}.quantity`)} />
+				<FormHorizontalSection title="Yields">
+					<Stack>
+						<Title order={4}>Modifiers</Title>
+						{form.values.yieldModifier.map((_, i) => (
+							<Center key={i}>
+								<Group>
+									<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`yieldModifier.${i}.yield`)} />
+									<NumberInput {...form.getInputProps(`yieldModifier.${i}.quantity`)} />
+								</Group>
+							</Center>
+						))}
+						<Group position="center">
+							<Button
+								onClick={() => {
+									form.setFieldValue('yieldModifier', form.values.yieldModifier.concat({ yield: 'Food', quantity: 0 }));
+								}}
+								rightIcon={<PlusCircledIcon width={24} height={24} />}>
+								Add
+							</Button>
+						</Group>
+					</Stack>
+					{form.values.harvestable && (
+						<Stack>
+							<Title order={4}>Harvest</Title>
+							{form.values.yieldModifier.map((_, i) => (
+								<Center key={i}>
+									<Group>
+										<NativeSelect data={YIELDS.map((str) => str)} {...form.getInputProps(`harvestYield.${i}.yield`)} />
+										<NumberInput {...form.getInputProps(`harvestYield.${i}.quantity`)} />
+									</Group>
+								</Center>
+							))}
+							<Group position="center">
+								<Button
+									onClick={() => {
+										form.setFieldValue('harvestYield', form.values.harvestYield.concat({ yield: 'Food', quantity: 0 }));
+									}}
+									rightIcon={<PlusCircledIcon width={24} height={24} />}>
+									Add
+								</Button>
 							</Group>
-						</Center>
-					))}
-					<Group position="center">
-						<Button
-							onClick={() => {
-								form.setFieldValue('yieldModifier', form.values.yieldModifier.concat({ yield: 'Food', quantity: 0 }));
-							}}
-							rightIcon={<PlusCircledIcon width={24} height={24} />}>
-							Add
-						</Button>
-					</Group>
-				</Stack>
+						</Stack>
+					)}
+				</FormHorizontalSection>
 				<MultiSelect
 					label="Appears On"
 					data={terrains.map((terrain) => ({ label: terrain.name, value: terrain._id, terrain }))}
