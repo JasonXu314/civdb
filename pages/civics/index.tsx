@@ -1,4 +1,4 @@
-import { Anchor, Stack, Text, Title } from '@mantine/core';
+import { Anchor, Stack, Text, Title, Image, Group } from '@mantine/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import { NextPage } from 'next/types';
@@ -30,7 +30,10 @@ const Index: NextPage = () => {
 				<Stack>
 					{civics.map((civic) => (
 						<Anchor key={civic._id} component={Link} href="/civics/[name]" as={`/civics/${normalizeName(civic.name)}`}>
-							{civic.name}
+							<Group>
+								<Image src={civic.icon} width="50"></Image>
+								{civic.name}
+							</Group>
 						</Anchor>
 					))}
 				</Stack>
